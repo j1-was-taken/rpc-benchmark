@@ -14,5 +14,3 @@ run below commands
 npm install
 npm run start
 ```
-
-go to 'link' it gives when finished. usually http://localhost:3000
