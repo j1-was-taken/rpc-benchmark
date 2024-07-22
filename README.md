@@ -4,7 +4,7 @@
 
 nodejs: https://nodejs.org/en/download/package-manager
 
-steps:
+### steps:
 
 modify .env file to your liking
 
