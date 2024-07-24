@@ -6,7 +6,7 @@ import {
   RPC_WEBSOCKET_ENDPOINT_ONE,
   RPC_WEBSOCKET_ENDPOINT_TWO,
   NUM_WORKERS,
-  TEST_DURATION
+  TEST_DURATION,
 } from "./helpers";
 import chalk from "chalk";
 
@@ -17,6 +17,9 @@ let successfulResponses = 0;
 let firstRun = true;
 
 async function testNode(connection: Connection, durationMs: number) {
+  failedResponses = 0;
+  successfulResponses = 0;
+
   const responseTimes: number[] = [];
 
   const warmupStartTime = Date.now();
@@ -52,8 +55,11 @@ async function testNode(connection: Connection, durationMs: number) {
 
 async function runTests(httpEndpoint: string, wssEndpoint: string) {
   console.log(
-    `${chalk.magenta(`\nStarting benchmark for endpoint: ${chalk.white(`${httpEndpoint}`)}`)}\n`
+    `${chalk.magenta(
+      `\nStarting benchmark for endpoint: ${chalk.white(`${httpEndpoint}`)}`
+    )}\n`
   );
+
   const connectionGod = new Connection(httpEndpoint, {
     wsEndpoint: wssEndpoint,
     commitment: COMMITMENT_LEVEL,
@@ -85,27 +91,48 @@ async function runTests(httpEndpoint: string, wssEndpoint: string) {
       : flattenedResponseTimes[middle];
 
   console.log(
-    `${chalk.green(`Minimum TX Response Time: ${minResponseTime.toFixed()} milliseconds`)}`
+    `${chalk.green(
+      `Minimum TX Response Time: ${minResponseTime.toFixed()} milliseconds`
+    )}`
   );
   console.log(
-    `${chalk.red(`Maximum TX Response Time: ${maxResponseTime.toFixed()} milliseconds`)}`
+    `${chalk.red(
+      `Maximum TX Response Time: ${maxResponseTime.toFixed()} milliseconds`
+    )}`
   );
   console.log(
-    `${chalk.blue(`Average TX Response Time: ${avgResponseTime.toFixed()} milliseconds`)}`
+    `${chalk.blue(
+      `Average TX Response Time: ${avgResponseTime.toFixed()} milliseconds`
+    )}`
   );
   console.log(
-    `${chalk.yellow(`Median TX Response Time: ${medianResponseTime.toFixed()} milliseconds`)}\n`
+    `${chalk.yellow(
+      `Median TX Response Time: ${medianResponseTime.toFixed()} milliseconds`
+    )}\n`
   );
   console.log(`${chalk.green(`Successful Responses: ${successfulResponses}`)}`);
   console.log(`${chalk.red(`Failed Responses: ${failedResponses}`)}`);
   console.log(
-    `Success Rate: ${chalk.blueBright(failedResponses === 0 ? "100%" : `${((successfulResponses / (successfulResponses + failedResponses)) * 100).toFixed(2)}%`)}`
+    `Success Rate: ${chalk.blueBright(
+      failedResponses === 0
+        ? "100%"
+        : `${(
+            (successfulResponses / (successfulResponses + failedResponses)) *
+            100
+          ).toFixed(2)}%`
+    )}`
   );
   console.log(`${chalk.blue(`Test Duration: ${durationMs} seconds`)}\n`);
 }
 
 async function main() {
-  console.log(chalk.blue(`\nRunning rpc benchmark [${chalk.green(RPC_HTTP_ENDPOINT_ONE)}] VS [${chalk.green(RPC_HTTP_ENDPOINT_TWO)}]`))
+  console.log(
+    chalk.blue(
+      `\nRunning rpc benchmark [${chalk.green(
+        RPC_HTTP_ENDPOINT_ONE
+      )}] VS [${chalk.green(RPC_HTTP_ENDPOINT_TWO)}]`
+    )
+  );
 
   await runTests(RPC_HTTP_ENDPOINT_ONE, RPC_WEBSOCKET_ENDPOINT_ONE);
 
