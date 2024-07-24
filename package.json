@@ -7,9 +7,15 @@
     "start": "npx tsx benchmark.ts"
   },
   "dependencies": {
+    "@solana/web3.js": "^1.89.1",
     "chalk": "^5.3.0",
+<<<<<<< HEAD
     "tsx": "^4.7.0",
     "dotenv": "^16.4.5",
     "@solana/web3.js": "^1.89.1"
+=======
+    "dotenv": "^16.4.5",
+    "tsx": "^4.7.0"
+>>>>>>> e42abf63a44143b365d26ff33f63d9e573b36640
   }
 }
